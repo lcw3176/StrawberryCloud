@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrawberryCloud", "StrawberryCloud\StrawberryCloud.csproj", "{6DAF3B57-81A1-4BD1-9BE5-666B80A86F46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrawberryCloudServer", "StrawberryCloudServer\StrawberryCloudServer.csproj", "{032531C1-D86F-4230-9AC7-CBB45614459F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DAF3B57-81A1-4BD1-9BE5-666B80A86F46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DAF3B57-81A1-4BD1-9BE5-666B80A86F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DAF3B57-81A1-4BD1-9BE5-666B80A86F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DAF3B57-81A1-4BD1-9BE5-666B80A86F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{032531C1-D86F-4230-9AC7-CBB45614459F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032531C1-D86F-4230-9AC7-CBB45614459F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032531C1-D86F-4230-9AC7-CBB45614459F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032531C1-D86F-4230-9AC7-CBB45614459F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B46EDC5-C7AE-4C0C-8778-A8D0B608BC74}
+	EndGlobalSection
+EndGlobal

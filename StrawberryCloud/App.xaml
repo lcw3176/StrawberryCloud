@@ -1,0 +1,27 @@
+﻿<Application x:Class="StrawberryCloud.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:StrawberryCloud.ViewModels"
+             xmlns:contentViewModels="clr-namespace:StrawberryCloud.ViewModels.HomeContent"
+             xmlns:contentViews="clr-namespace:StrawberryCloud.Views.HomeContent"
+             xmlns:views="clr-namespace:StrawberryCloud.Views"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type contentViewModels:ProfileViewModel}">
+            <contentViews:ProfileView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type contentViewModels:DownloadViewModel}">
+            <contentViews:DownloadView/>
+        </DataTemplate>
+
+    </Application.Resources>
+</Application>

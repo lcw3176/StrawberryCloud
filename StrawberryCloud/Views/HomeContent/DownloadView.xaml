@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="StrawberryCloud.Views.HomeContent.DownloadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StrawberryCloud.Views.HomeContent"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="600">
+    <Grid Background="White">
+        <Border BorderBrush="Black"
+                BorderThickness="1"
+                Margin="10">
+
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto">
+
+
+                <ItemsControl ItemsSource="{Binding downloadList, UpdateSourceTrigger=PropertyChanged}">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10, 3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding name}"
+                                           Grid.Column="0"
+                                           HorizontalAlignment="Stretch"
+                                           TextAlignment="Left"
+                                           Margin="10, 0">
+                                    
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="다시 시작"
+                                                  Command="{Binding againDownloadCommand}"
+                                                  CommandParameter="{Binding name}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="../Image/play.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+
+                                            <MenuItem Header="일시정지"
+                                                  Command="{Binding pauseDownloadCommand}"
+                                                  CommandParameter="{Binding name}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="../Image/pause.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+
+                                            <MenuItem Header="삭제"
+                                                  Command="{Binding deleteDownloadCommand}"
+                                                  CommandParameter="{Binding name}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="../Image/delete.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding size}"
+                                           Grid.Column="1"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding speed, UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Column="2"
+                                           HorizontalAlignment="Center"/>
+
+                                <ProgressBar Grid.Column="3"
+                                             Minimum="0"
+                                             Maximum="100"
+                                             Value="{Binding progress, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <TextBlock Grid.Column="4"
+                                           HorizontalAlignment="Center"
+                                           Text="{Binding behavior}"/>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            
+        </Border>
+    </Grid>
+</UserControl>
