@@ -1,6 +1,8 @@
 ﻿using StrawberryCloud.Commands;
 using StrawberryCloud.Models.HomeContent;
 using StrawberryCloud.Models.HomeContent.ObservableCollection;
+using StrawberryCloud.Views.HomeContent;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -13,11 +15,18 @@ namespace StrawberryCloud.ViewModels.HomeContent
         public ICommand fallbackCommand { get; set; }
         public ICommand uploadCommand { get; set; }
         public ICommand refreshCommand { get; set; }
+        public ICommand makeFolderCommand { get; set; }
 
         public string dynamicPath
         {
             get { return model.DynamicPath; }
             set { model.DynamicPath = value; }
+        }
+
+        public ICommand deleteCommand
+        {
+            get { return model.DeleteCommand; }
+            set { model.DeleteCommand = value; }
         }
 
         public ICommand clickCommand
@@ -43,10 +52,31 @@ namespace StrawberryCloud.ViewModels.HomeContent
             fallbackCommand = new RelayCommand(FallbackExecuteMethod);
             uploadCommand = new RelayCommand(UploadExecuteMethod);
             refreshCommand = new RelayCommand(RefreshExecuteMethod);
+            deleteCommand = new RelayCommand(deleteExecuteMethod);
+            makeFolderCommand = new RelayCommand(makeFolderExecuteMethod);
+        }
+
+        // 폴더 만들기 버튼
+        private void makeFolderExecuteMethod(object obj)
+        {
+            AskNewFolderViewModel folderViewModel = new AskNewFolderViewModel();
+            folderViewModel.close += model.MakeFolder;
+            AskNewFolderView askNewFolder = new AskNewFolderView() 
+            { 
+                DataContext = folderViewModel 
+            };
+            askNewFolder.Show();
+
+        }
+
+        // 파일 삭제 버튼
+        private void deleteExecuteMethod(object obj)
+        {
+            model.Delete(obj.ToString());
         }
 
         // 새로고침 버튼
-        private void RefreshExecuteMethod(object obj)
+        public void RefreshExecuteMethod(object obj)
         {
             model.Refresh();
         }

@@ -115,7 +115,7 @@ namespace StrawberryCloud.ViewModels.HomeContent
 
                 if(component.behavior == "Download")
                 {
-                    model.RequestDownload(component.fileName, component.index);
+                    model.RequestDownload(component.dynamicPath, component.index);
                 }
 
                 component.isRun = true;

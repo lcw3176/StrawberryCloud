@@ -39,7 +39,7 @@
                                                   Command="{Binding againDownloadCommand}"
                                                   CommandParameter="{Binding name}">
                                                 <MenuItem.Icon>
-                                                    <Image Source="../Image/play.png"/>
+                                                    <Image Source="/Resource/Image/play.png"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
 
@@ -47,7 +47,7 @@
                                                   Command="{Binding pauseDownloadCommand}"
                                                   CommandParameter="{Binding name}">
                                                 <MenuItem.Icon>
-                                                    <Image Source="../Image/pause.png"/>
+                                                    <Image Source="/Resource/Image/pause.png"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
 
@@ -55,7 +55,7 @@
                                                   Command="{Binding deleteDownloadCommand}"
                                                   CommandParameter="{Binding name}">
                                                 <MenuItem.Icon>
-                                                    <Image Source="../Image/delete.png"/>
+                                                    <Image Source="/Resource/Image/delete.png"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                         </ContextMenu>

@@ -37,5 +37,27 @@ namespace StrawberryCloudServer.Storage
 
             return string.Join("/", list);
         }
+
+        // 폴더 만들기
+        public void SetFolder(string userId, string path, string folderName)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(rootPath + "\\" + userId + path + "\\" + folderName);
+
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+        }
+
+        // 폴더 삭제
+        public void DeleteFolder(string userId, string path, string folderName)
+        {
+            DirectoryInfo directory = new DirectoryInfo(rootPath + "\\" + userId + path + "\\" + folderName);
+
+            if(directory.Exists)
+            {
+                directory.Delete(true);
+            }
+        }
     }
 }

@@ -37,11 +37,11 @@ namespace StrawberryCloudServer.Storage
         }
         
         // 파일 다운로드
-        public byte[] GetFile(string userId, string fileName, int index)
+        public byte[] GetFile(string userId, string path, int index)
         {
             byte[] read = new byte[8192];
 
-            using (FileStream fs = new FileStream(rootPath + "\\" + userId + "\\" + fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(rootPath + "\\" + userId + path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 int readLen = 0;
 
@@ -60,19 +60,19 @@ namespace StrawberryCloudServer.Storage
                     }
                 }                
 
-                byte[] name = Encoding.UTF8.GetBytes(fileName);
+                byte[] fileName = Encoding.UTF8.GetBytes(path.Substring(path.LastIndexOf("\\") + 1, path.Length - path.LastIndexOf("\\") - 1));
                 
                 // 끝에 남는 쪼가리 용량을 위해 읽은만큼 복사한다
                 byte[] copy = new byte[readLen];
                 Array.Copy(read, copy, readLen);
 
                 byte[] copyLen = BitConverter.GetBytes(readLen);
-                byte[] send = new byte[copyLen.Length + copy.Length + name.Length];
+                byte[] send = new byte[copyLen.Length + copy.Length + fileName.Length];
 
                 // 길이 먼저 보내준다
                 copyLen.CopyTo(send, 0);
                 copy.CopyTo(send, 4);
-                name.CopyTo(send, 4 + copy.Length);
+                fileName.CopyTo(send, 4 + copy.Length);
 
                 return send;
             }                        
@@ -124,7 +124,7 @@ namespace StrawberryCloudServer.Storage
         {
             FileInfo file = new FileInfo(rootPath + "\\" + userId + fileName);
 
-            object[] value = { file.Name, file.Length.ToString() };
+            object[] value = { fileName, file.Name, file.Length.ToString() };
 
             return string.Join("/", value);
         }
@@ -156,6 +156,18 @@ namespace StrawberryCloudServer.Storage
 
             return string.Join("/", size);
         }
+
+        // 파일 삭제
+        public void DeleteFile(string userId, string path, string fileName)
+        {
+            FileInfo fileInfo = new FileInfo(rootPath + "\\" + userId + path + "\\" + fileName);
+
+            if(fileInfo.Exists)
+            {
+                fileInfo.Delete();
+            }
+        }
+
 
     }
 }

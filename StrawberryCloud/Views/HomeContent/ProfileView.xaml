@@ -46,6 +46,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
@@ -54,7 +55,7 @@
                         Style="{StaticResource MyButtonStyle}"
                         Command="{Binding fallbackCommand}">
                     <Button.Background>
-                        <ImageBrush ImageSource="../Image/back.png"
+                    <ImageBrush ImageSource="/Resource/Image/back.png"
                                     Stretch="UniformToFill"/>
                     </Button.Background>
                 </Button>
@@ -65,7 +66,7 @@
                         Style="{StaticResource MyButtonStyle}"
                         Command="{Binding refreshCommand}">
                 <Button.Background>
-                    <ImageBrush ImageSource="../Image/refreshButton.png"
+                    <ImageBrush ImageSource="/Resource/Image/refreshButton.png"
                                 Stretch="Uniform"/>
                 </Button.Background>
             </Button>
@@ -76,11 +77,24 @@
                         Style="{StaticResource MyButtonStyle}"
                         Command="{Binding uploadCommand}">
                 <Button.Background>
-                    <ImageBrush ImageSource="../Image/uploadButton.png"
+                    <ImageBrush ImageSource="/Resource/Image/uploadButton.png"
                                 Stretch="Uniform"/>
                 </Button.Background>
             </Button>
-            </Grid>
+
+            <Button Grid.Column="4"
+                        Margin="5"
+                        BorderThickness="0"
+                        Style="{StaticResource MyButtonStyle}"
+                        Command="{Binding makeFolderCommand}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Resource/Image/newFolder.png"
+                                Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+
+        </Grid>
+        
 
         <Border BorderBrush="Black"
                 BorderThickness="1"
@@ -91,7 +105,6 @@
                 <ItemsControl ItemsSource="{Binding fileList, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemTemplate>
                             <DataTemplate>
-
 
                             <Grid Height="30"
                                         Margin="10, 0">
@@ -127,6 +140,20 @@
                                        Grid.Column="2"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"/>
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="삭제"
+                                                  Command="{Binding deleteCommand}"
+                                                  CommandParameter="{Binding name}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Image/delete.png"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+
+                      
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
 
                             </Grid>
                         </DataTemplate>

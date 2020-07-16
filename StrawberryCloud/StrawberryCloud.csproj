@@ -71,11 +71,15 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Network\SocketConnection.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\HomeContent\AskNewFolderViewModel.cs" />
     <Compile Include="ViewModels\HomeContent\ContentBaseViewModel.cs" />
     <Compile Include="ViewModels\HomeContent\DownloadViewModel.cs" />
     <Compile Include="ViewModels\HomeContent\ProfileViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Views\HomeContent\AskNewFolderView.xaml.cs">
+      <DependentUpon>AskNewFolderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeContent\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
     </Compile>
@@ -101,6 +105,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\HomeContent\AskNewFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomeContent\DownloadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,26 +153,29 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\back.png" />
+    <Resource Include="Resource\Image\back.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\refreshButton.png" />
+    <Resource Include="Resource\Image\refreshButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\logo.png" />
+    <Resource Include="Resource\Image\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\uploadButton.png" />
+    <Resource Include="Resource\Image\uploadButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\pause.png" />
-    <Resource Include="Views\Image\play.png" />
+    <Resource Include="Resource\Image\pause.png" />
+    <Resource Include="Resource\Image\play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Image\delete.png" />
+    <Resource Include="Resource\Image\delete.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="iconfinder-technologymachineelectronicdevice01-4026455_113343.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Image\newfolder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

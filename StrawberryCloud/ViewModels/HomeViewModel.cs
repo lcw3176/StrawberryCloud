@@ -47,6 +47,7 @@ namespace StrawberryCloud.ViewModels
             if(param.ToString().Equals("Profile"))
             {
                 contentViewModel = contentDictionary["Profile"];
+                (contentViewModel as ProfileViewModel).RefreshExecuteMethod(null);
             }
 
             if(param.ToString().Equals("Download"))

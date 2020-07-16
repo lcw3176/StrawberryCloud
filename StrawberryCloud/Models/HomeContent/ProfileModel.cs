@@ -3,6 +3,8 @@ using StrawberryCloud.Models.HomeContent.ObservableCollection;
 using StrawberryCloud.Models.Network;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -12,6 +14,7 @@ namespace StrawberryCloud.Models.HomeContent
     {
         private ObservableCollection<FileList> fileList = new ObservableCollection<FileList>();
         private ICommand clickCommand;
+        private ICommand deleteCommand;
 
         private string dynamicPath { get; set; }
 
@@ -19,6 +22,12 @@ namespace StrawberryCloud.Models.HomeContent
         {
             get { return dynamicPath; }
             set { dynamicPath = value; }
+        }
+
+        public ICommand DeleteCommand
+        {
+            get { return deleteCommand; }
+            set { deleteCommand = value; }
         }
 
         public ICommand ClickCommand
@@ -53,53 +62,84 @@ namespace StrawberryCloud.Models.HomeContent
 
         private void Receive(Method method, byte[] data, int recvLen)
         {
-            string result = Encoding.UTF8.GetString(data, 0, recvLen);
+            
 
-            // 클라우드에 업로드한 파일이 없거나 빈 폴더를 열었을 경우
-            if (result == "null")
+            if(method.Equals(Method.GET))
             {
-                App.Current.Dispatcher.Invoke((Action)delegate
+                string result = Encoding.UTF8.GetString(data, 0, recvLen);
+                // 클라우드에 업로드한 파일이 없거나 빈 폴더를 열었을 경우
+                if (result == "null")
                 {
-                    FileList.Clear();
-                });
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        FileList.Clear();
+                    });
+                }
+
+                // 클라우드에 업로드한 파일이 없을 경우 패스
+                if (result != "null")
+                {
+                    string folder = result.Split('&')[0];
+                    string[] file = result.Split('&')[1].Split('/');
+                    string[] fileSize = result.Split('&')[2].Split('/');
+
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        FileList.Clear();
+
+                        // 공백시 첫 한칸 추가 방지
+                        if (!string.IsNullOrEmpty(folder.Split('/')[0]))
+                        {
+                            foreach (string i in folder.Split('/'))
+                            {
+                                FileList.Add(new FileList
+                                {
+                                    name = i,
+                                    size = null,
+                                    type = "Folder",
+                                    clickCommand = ClickCommand,
+                                    deleteCommand = DeleteCommand,
+                                });
+                            }
+                        }
+
+
+                        // 공백시 첫 한칸 추가 방지
+                        if (!string.IsNullOrEmpty(file[0]))
+                        {
+                            for (int i = 0; i < file.Length; i++)
+                            {
+                                FileList.Add(new FileList
+                                {
+                                    name = file[i],
+                                    size = TransferFileSize(double.Parse(fileSize[i])),
+                                    type = "File",
+                                    clickCommand = ClickCommand,
+                                    deleteCommand = DeleteCommand,
+                                });
+                            }
+                        }
+
+                    });
+
+                }
             }
 
-            // 클라우드에 업로드한 파일이 없을 경우 패스
-            if(result != "null")
+            if(method.Equals(Method.DELETE))
             {
-                string folder = result.Split('&')[0];
-                string[] file = result.Split('&')[1].Split('/');
-                string[] fileSize = result.Split('&')[2].Split('/');
+                string result = Encoding.UTF8.GetString(data, 0, recvLen);
 
-                App.Current.Dispatcher.Invoke((Action)delegate
+                if(result.Equals("true"))
                 {
-                    FileList.Clear();
-
-                    // 공백시 첫 한칸 추가 방지
-                    if (!string.IsNullOrEmpty(folder.Split('/')[0]))
-                    {
-                        foreach (string i in folder.Split('/'))
-                        {
-                            FileList.Add(new FileList { name = i, size = null, type = "Folder", clickCommand = ClickCommand });
-                        }
-                    }
-    
-
-                    // 공백시 첫 한칸 추가 방지
-                    if (!string.IsNullOrEmpty(file[0]))
-                    {
-                        for (int i = 0; i < file.Length; i++)
-                        {
-                            FileList.Add(new FileList 
-                            { 
-                                name = file[i], size = TransferFileSize(double.Parse(fileSize[i])), type = "File", clickCommand = ClickCommand 
-                            });
-                        }
-                    }
-
-                });
-
+                    Refresh();
+                }
             }
+
+            if(method.Equals(Method.UPDATE))
+            {
+                Refresh();
+            }
+           
         }
 
         // 사람이 읽기 좋은 표기법으로 파일 용량 변환
@@ -132,8 +172,34 @@ namespace StrawberryCloud.Models.HomeContent
             {
                 this.dynamicPath += "\\" + folderName;
             }
-            
+
             SocketConnection.GetInstance().Send(DataInfo.Folder, Method.GET, Destination.ProfileView, dynamicPath);
+
+        }
+
+        // 폴더 만들기
+        public void MakeFolder(string folderName)
+        {
+            if (String.IsNullOrEmpty(folderName)) { return; }
+            SocketConnection.GetInstance().Send(DataInfo.Folder, Method.UPDATE, Destination.ProfileView, dynamicPath, folderName);
+        }
+
+        // 파일 삭제
+        public void Delete(string fileName)
+        {
+            var element = FileList.FirstOrDefault(e => e.name == fileName);
+
+            if(element.type.Equals("File"))
+            {
+                SocketConnection.GetInstance().Send(DataInfo.File, Method.DELETE, Destination.ProfileView, dynamicPath, fileName);
+            }
+
+            if(element.type.Equals("Folder"))
+            {
+                SocketConnection.GetInstance().Send(DataInfo.Folder, Method.DELETE, Destination.ProfileView, dynamicPath, fileName);
+            }
+
+            fileList.Remove(element);
 
         }
 

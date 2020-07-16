@@ -24,7 +24,7 @@
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
 
-            <Image Source="./Image/logo.png"
+            <Image Source="/Resource/Image/logo.png"
                    Grid.Row="0"/>
 
             <TextBlock Text="ID"

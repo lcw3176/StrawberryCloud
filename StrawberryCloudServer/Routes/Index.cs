@@ -1,6 +1,7 @@
 ﻿using StrawberryCloudServer.DataBase;
 using StrawberryCloudServer.Enumerate;
 using StrawberryCloudServer.Storage;
+using System;
 using System.Text;
 
 namespace StrawberryCloudServer.Routes
@@ -61,25 +62,50 @@ namespace StrawberryCloudServer.Routes
 
         public byte[] Folder(Method method, byte[] _data)
         {
-            string data = Encoding.UTF8.GetString(_data);
-            byte[] send;
-            StringBuilder sb = new StringBuilder();
+            byte[] send = null;
 
-
-            sb.Append(folder.GetNames(userId, data));
-
-            if (sb.ToString() == "null")
+            if (method.Equals(Method.GET))
             {
-                send = Encoding.UTF8.GetBytes("null");
-                return send;
+                string data = Encoding.UTF8.GetString(_data);
+
+                StringBuilder sb = new StringBuilder();
+
+
+                sb.Append(folder.GetNames(userId, data));
+
+                if (sb.ToString() == "null")
+                {
+                    send = Encoding.UTF8.GetBytes("null");
+                    return send;
+                }
+
+                sb.Append("&");
+                sb.Append(file.GetNames(userId, data));
+
+                sb.Append("&");
+                sb.Append(file.GetSizes(userId, data));
+                send = Encoding.UTF8.GetBytes(sb.ToString());
             }
 
-            sb.Append("&");
-            sb.Append(file.GetNames(userId, data));
+            if(method.Equals(Method.UPDATE))
+            {
+                string data = Encoding.UTF8.GetString(_data);
+                string path = data.Split(',')[0];
+                string fileName = data.Split(',')[1];
 
-            sb.Append("&");
-            sb.Append(file.GetSizes(userId, data));
-            send = Encoding.UTF8.GetBytes(sb.ToString());
+                folder.SetFolder(userId, path, fileName);
+                send = Encoding.UTF8.GetBytes("true");
+            }
+
+            if(method.Equals(Method.DELETE))
+            {
+                string data = Encoding.UTF8.GetString(_data);
+                string path = data.Split(',')[0];
+                string folderName = data.Split(',')[1];
+
+                folder.DeleteFolder(userId, path, folderName);
+                send = Encoding.UTF8.GetBytes("true");
+            }
 
             return send;
         }
@@ -110,10 +136,10 @@ namespace StrawberryCloudServer.Routes
             if (method.Equals(Method.DOWNLOAD))
             {
                 string data = Encoding.UTF8.GetString(_data);
-                string fileName = data.Split(',')[0];
+                string path = data.Split(',')[0];
                 int index = int.Parse(data.Split(',')[1]);
 
-                send = file.GetFile(userId, fileName, index);
+                send = file.GetFile(userId, path, index);
             }
 
             // 파일 업로드 시작
@@ -131,6 +157,18 @@ namespace StrawberryCloudServer.Routes
                 string result = file.SetFileEnd(data);
 
                 send = Encoding.UTF8.GetBytes(result);
+            }
+
+            // 삭제 요청
+            if(method.Equals(Method.DELETE))
+            {
+                string data = Encoding.UTF8.GetString(_data);
+                string path = data.Split(',')[0];
+                string fileName = data.Split(',')[1];
+
+                file.DeleteFile(userId, path, fileName);
+
+                send = Encoding.UTF8.GetBytes("true");
             }
 
 

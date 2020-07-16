@@ -2,6 +2,12 @@
 {
     enum Method
     {
-        GET, POST, DELETE, UPDATE, DOWNLOAD, UPLOAD, UPLOADEND,
+        GET, 
+        POST, 
+        DELETE,
+        UPDATE,
+        DOWNLOAD, 
+        UPLOAD, 
+        UPLOADEND,
     }
 }

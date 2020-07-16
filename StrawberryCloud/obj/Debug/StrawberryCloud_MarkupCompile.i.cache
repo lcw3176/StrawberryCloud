@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\App.xaml
-52002974916
+61030322182
 
-281303534749
+30-942333853
 14-1290796308
-MainWindow.xaml;Views\HomeContent\DownloadView.xaml;Views\HomeContent\ProfileView.xaml;Views\HomeView.xaml;Views\LoginView.xaml;
+MainWindow.xaml;Views\HomeContent\AskNewFolderView.xaml;Views\HomeContent\DownloadView.xaml;Views\HomeContent\ProfileView.xaml;Views\HomeView.xaml;Views\LoginView.xaml;
 
-True
+False
 

@@ -8,5 +8,6 @@ namespace StrawberryCloud.Models.HomeContent.ObservableCollection
         public string type { get; set; }
         public string size { get; set; }
         public ICommand clickCommand { get; set; }
+        public ICommand deleteCommand { get; set; }
     }
 }

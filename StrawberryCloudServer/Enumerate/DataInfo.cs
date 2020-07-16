@@ -3,7 +3,6 @@
     enum DataInfo
     {
         Login, 
-        Join, 
         File, 
         Folder,
         Init,
