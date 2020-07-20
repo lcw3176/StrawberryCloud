@@ -22,3 +22,5 @@ D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\StrawberryCloud.cs
 D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\StrawberryCloud.csproj.CoreCompileInputs.cache
 D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\StrawberryCloud.exe
 D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\StrawberryCloud.pdb
+D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\Views\HomeContent\AskNewFolderView.g.cs
+D:\project\Cs\wpf\StrawberryCloud\StrawberryCloud\obj\Release\Views\HomeContent\AskNewFolderView.baml

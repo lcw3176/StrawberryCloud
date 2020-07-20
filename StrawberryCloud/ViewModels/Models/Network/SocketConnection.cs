@@ -19,27 +19,23 @@ namespace StrawberryCloud.Models.Network
         public event Receive profileView;
         public event Receive downloadView;
 
-
         public static SocketConnection GetInstance()
         {
             if(instance == null)
             {
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.ReceiveBufferSize = 0;
-
                 instance = new SocketConnection();
             }
 
             return instance;
         }
-        
 
         public void GetConnection()
         {
             if(!socket.Connected)
             {
                 socket.Connect(new IPEndPoint(IPAddress.Loopback, 3000));
-
                 Thread t = new Thread(StartReceive);
                 t.Start();
             }
@@ -56,7 +52,7 @@ namespace StrawberryCloud.Models.Network
         private void StartReceive()
         {
             byte[] byteLen = new byte[4];
-            byte[] recv = new byte[1];
+            byte[] recv = new byte[1024];
 
             while (socket.Connected)
             {
@@ -65,9 +61,9 @@ namespace StrawberryCloud.Models.Network
                     socket.Receive(byteLen, 0, 4, SocketFlags.None);
                     int dataLen = BitConverter.ToInt32(byteLen, 0);
                     
-                    if (recv.Length < dataLen)
+                    if(recv.Length < dataLen)
                     {
-                        recv = new byte[dataLen];
+                        recv = new byte[dataLen * 2];
                     }
                     
                     int recvLen = 0;
@@ -80,7 +76,7 @@ namespace StrawberryCloud.Models.Network
                     Destination destination = (Destination)BitConverter.ToInt32(recv, 0);
                     Method method = (Method)BitConverter.ToInt32(recv, 4);
 
-                    // 사이즈 조절, 필요없는 데이터 가공 후 넘겨주기
+                    //// 사이즈 조절, 필요없는 데이터 가공 후 넘겨주기
                     //recv = recv.Skip(8).ToArray();
 
                     switch (destination)
@@ -114,7 +110,7 @@ namespace StrawberryCloud.Models.Network
             for(int i = 0; i < data.Length; i++)
             {
                 sb.Append(data[i]);
-                sb.Append("/");
+                sb.Append(",");
             }
 
             sb.Remove(sb.Length - 1, 1);
@@ -124,7 +120,7 @@ namespace StrawberryCloud.Models.Network
             byte[] destination = BitConverter.GetBytes((int)_destination);
 
             byte[] strData = Encoding.UTF8.GetBytes(sb.ToString());
-            byte[] send = new byte[info.Length + method.Length + destination.Length + strData.Length];
+            byte[] send = new byte[info.Length + method.Length + +destination.Length + strData.Length];
 
             info.CopyTo(send, 0);
             method.CopyTo(send, 4);

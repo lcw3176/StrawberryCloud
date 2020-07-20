@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StrawberryCloud.Models.HomeContent
@@ -77,8 +75,9 @@ namespace StrawberryCloud.Models.HomeContent
 
         private void Receive(Method method, byte[] data, int recvLen)
         {
+            // Destination, Method 두 개의 integer를 제외한 부분부터 읽는다 
             // 다운로드 관련 코드 시작
-            if(method.Equals(Method.GET))
+            if (method.Equals(Method.GET))
             {
                 string result = Encoding.UTF8.GetString(data, 8, recvLen);
                 string dynamicPath = result.Split('/')[0];
@@ -123,7 +122,6 @@ namespace StrawberryCloud.Models.HomeContent
 
             if (method.Equals(Method.DOWNLOAD))
             {
-
                 int byteLen = BitConverter.ToInt32(data, 8);
                 int fileNameLen = recvLen - byteLen;
                 string fileName = Encoding.UTF8.GetString(data, byteLen + 4 + 8, fileNameLen - 4);
@@ -131,32 +129,32 @@ namespace StrawberryCloud.Models.HomeContent
                 var fileStatus = downloadStatus[fileName];
 
 
-                using (FileStream fs = new FileStream(downloadPath[fileName] + "\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                using (FileStream fs = new FileStream(downloadPath[fileName] + "\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.Write))
                 {
                     fs.Position = fileStatus.index;
                     fs.Write(data, 4 + 8, byteLen);
                 }
-                
+
                 fileStatus.index += byteLen;
                 var entity = downloadList.FirstOrDefault(e => e.name == fileName && e.behavior == "Download");
-                
+
                 // 유저가 임의로 목록 삭제했을 때
-                if (entity == null)
+                if (entity == null) 
                 {
-                    return;
+                    return; 
                 }
-                
+
                 entity.progress = (fileStatus.index / fileStatus.size) * 100;
                 entity.speed = TransferFileSize(fileStatus.index);
-                
-                
+
+
                 if (fileStatus.size > fileStatus.index)
                 {
                     // 일시정지 눌렀을때 리턴
                     if (!fileStatus.isRun) { return; }
                     RequestDownload(fileStatus.dynamicPath, fileStatus.index);
                 }
-                
+
                 // 다운 완료 시 정리
                 else
                 {
@@ -166,8 +164,6 @@ namespace StrawberryCloud.Models.HomeContent
                     downloadPath.Remove(fileStatus.fileName);
                     downloadStatus.Remove(fileName);
                 }
-
-
             }
             // 다운로드 관련 코드 끝
 
@@ -322,17 +318,16 @@ namespace StrawberryCloud.Models.HomeContent
         }
 
         // 다운로드 시작
-        public void RequestUpload(byte[] byteFile, int index)
-        {
-            SocketConnection.GetInstance().Send(DataInfo.File, Method.UPLOAD, Destination.DownloadView, byteFile, index);
-        }
-
-        // 업로드 시작
         public void RequestDownload(string dynamicPath, int index)
         {
             SocketConnection.GetInstance().Send(DataInfo.File, Method.DOWNLOAD, Destination.DownloadView, dynamicPath, index.ToString());
         }
 
+        // 업로드 시작
+        public void RequestUpload(byte[] byteFile, int index)
+        {
+            SocketConnection.GetInstance().Send(DataInfo.File, Method.UPLOAD, Destination.DownloadView, byteFile, index);
+        }
 
         // 업로드 종료 통보
         private void NoticeUploadEnd(string fileName)

@@ -1,6 +1,7 @@
 ﻿using StrawberryCloudServer.Enumerate;
 using StrawberryCloudServer.Routes;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
@@ -23,11 +24,13 @@ namespace StrawberryCloudServer
             byte[] recv = new byte[4];
             Index index = new Index();
             Type type = index.GetType();
-            
+            Stopwatch sw = new Stopwatch();
+
             while (socket.Connected)
             {
                 try
                 {
+                    sw.Start();
                     socket.Receive(recv, 0, recv.Length, SocketFlags.None);
                     int len = BitConverter.ToInt32(recv, 0);
 
@@ -65,7 +68,11 @@ namespace StrawberryCloudServer
                     {
                         sendLen += socket.Send(send, sendLen, send.Length - sendLen, SocketFlags.None);
                     }
-                    
+
+                    sw.Stop();
+                    Console.WriteLine(sw.ElapsedMilliseconds.ToString() + "ms");
+                    sw.Reset();
+
                 }
 
                 catch(SocketException)

@@ -26,6 +26,7 @@ namespace StrawberryCloud.Models
 
         private void Receive(Method method, byte[] data, int recvLen)
         {
+            // Destination, Method 두 개의 integer를 제외한 부분부터 읽는다 
             string result = Encoding.UTF8.GetString(data, 8, recvLen);
 
             if(result == "true")

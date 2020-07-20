@@ -62,9 +62,9 @@ namespace StrawberryCloud.Models.HomeContent
 
         private void Receive(Method method, byte[] data, int recvLen)
         {
-            
+            // Destination, Method 두 개의 integer를 제외한 부분부터 읽는다 
 
-            if(method.Equals(Method.GET))
+            if (method.Equals(Method.GET))
             {
                 string result = Encoding.UTF8.GetString(data, 8, recvLen);
                 // 클라우드에 업로드한 파일이 없거나 빈 폴더를 열었을 경우
@@ -125,7 +125,7 @@ namespace StrawberryCloud.Models.HomeContent
                 }
             }
 
-            if(method.Equals(Method.DELETE))
+            if (method.Equals(Method.DELETE))
             {
                 string result = Encoding.UTF8.GetString(data, 8, recvLen);
 

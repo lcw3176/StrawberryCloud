@@ -22,14 +22,14 @@ namespace StrawberryCloudServer.Routes
         {
             DbRead db = new DbRead();
             string data = Encoding.UTF8.GetString(_data);
-            string name = data.Split(',')[0];
-            string password = data.Split(',')[1];
+            string name = data.Split('/')[0];
+            string password = data.Split('/')[1];
             byte[] send;
 
             if (db.IsUser(name, password))
             {
                 send = Encoding.UTF8.GetBytes("true");
-                this.userId = data.Split(',')[0];
+                this.userId = data.Split('/')[0];
                 return send;
             }
 
@@ -90,8 +90,8 @@ namespace StrawberryCloudServer.Routes
             if(method.Equals(Method.UPDATE))
             {
                 string data = Encoding.UTF8.GetString(_data);
-                string path = data.Split(',')[0];
-                string fileName = data.Split(',')[1];
+                string path = data.Split('/')[0];
+                string fileName = data.Split('/')[1];
 
                 folder.SetFolder(userId, path, fileName);
                 send = Encoding.UTF8.GetBytes("true");
@@ -100,8 +100,8 @@ namespace StrawberryCloudServer.Routes
             if(method.Equals(Method.DELETE))
             {
                 string data = Encoding.UTF8.GetString(_data);
-                string path = data.Split(',')[0];
-                string folderName = data.Split(',')[1];
+                string path = data.Split('/')[0];
+                string folderName = data.Split('/')[1];
 
                 folder.DeleteFolder(userId, path, folderName);
                 send = Encoding.UTF8.GetBytes("true");
@@ -136,8 +136,8 @@ namespace StrawberryCloudServer.Routes
             if (method.Equals(Method.DOWNLOAD))
             {
                 string data = Encoding.UTF8.GetString(_data);
-                string path = data.Split(',')[0];
-                int index = int.Parse(data.Split(',')[1]);
+                string path = data.Split('/')[0];
+                int index = int.Parse(data.Split('/')[1]);
 
                 send = file.GetFile(userId, path, index);
             }
@@ -163,8 +163,8 @@ namespace StrawberryCloudServer.Routes
             if(method.Equals(Method.DELETE))
             {
                 string data = Encoding.UTF8.GetString(_data);
-                string path = data.Split(',')[0];
-                string fileName = data.Split(',')[1];
+                string path = data.Split('/')[0];
+                string fileName = data.Split('/')[1];
 
                 file.DeleteFile(userId, path, fileName);
 
