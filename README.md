@@ -70,13 +70,13 @@ CREATE TABLE user(
 ## 작동 모습
 ### 홈 화면, 파일 업로드
 <div>
-  <img width="500" src="https://user-images.githubusercontent.com/59993347/87643772-3b244800-c786-11ea-9e82-02279dd4a1c0.png">
-  <img width="500" src="https://user-images.githubusercontent.com/59993347/87643764-395a8480-c786-11ea-825d-9c252df80ae9.png">
+  <img width="700" src="https://user-images.githubusercontent.com/59993347/87643772-3b244800-c786-11ea-9e82-02279dd4a1c0.png">
+  <img width="700" src="https://user-images.githubusercontent.com/59993347/87643764-395a8480-c786-11ea-825d-9c252df80ae9.png">
  </div>
 
 ### 새 폴더 만들기 및 삭제, 다운로드
 <div>
-  <img width="500" src="https://user-images.githubusercontent.com/59993347/87643765-39f31b00-c786-11ea-901e-081c96a6463d.png">
-  <img width="500" src="https://user-images.githubusercontent.com/59993347/87643770-3a8bb180-c786-11ea-899f-cd2a5fbf7009.png">
-  <img width="500" src="https://user-images.githubusercontent.com/59993347/87643771-3a8bb180-c786-11ea-9ccb-3a5896e2c4d1.png">
+  <img width="700" src="https://user-images.githubusercontent.com/59993347/87643765-39f31b00-c786-11ea-901e-081c96a6463d.png">
+  <img width="700" src="https://user-images.githubusercontent.com/59993347/87643770-3a8bb180-c786-11ea-899f-cd2a5fbf7009.png">
+  <img width="700" src="https://user-images.githubusercontent.com/59993347/87643771-3a8bb180-c786-11ea-9ccb-3a5896e2c4d1.png">
  </div>
