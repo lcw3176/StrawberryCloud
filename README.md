@@ -35,7 +35,7 @@ CREATE TABLE user(
 
 ### 부연 설명
 * Parameters를 제외한 정보는 BitConverter를 통해 정수형으로 전달됨
-	000a/a == Login GET LoginView a(아이디)/a(비밀번호)
+    - 000a/a == Login GET LoginView a(아이디)/a(비밀번호)
 * Parameters는 "/"를 이용해 서로 구분됨
 * "null"은 데이터 전송, 처리 형식을 맞추기 위해 넣음
 
