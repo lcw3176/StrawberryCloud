@@ -33,6 +33,12 @@ CREATE TABLE user(
 |업로드 종료 알림|File|UPLOADEND|DownloadView|파일 이름|
 |파일 삭제|File|DELETE|ProfileView|파일 경로, 파일 이름|
 
+### 부연 설명
+* Parameters를 제외한 정보는 BitConverter를 통해 정수형으로 전달됨
+	000a/a == Login GET LoginView a(아이디)/a(비밀번호)
+* Parameters는 "/"를 이용해 서로 구분됨
+* "null"은 데이터 전송, 처리 형식을 맞추기 위해 넣음
+
 ## 작동 방식 및 구현 기능
 ### 클라이언트
 * WPF, MVVM 패턴 적용

@@ -80,8 +80,6 @@ namespace StrawberryCloud.Models.Network
                     Destination destination = (Destination)BitConverter.ToInt32(recv, 0);
                     Method method = (Method)BitConverter.ToInt32(recv, 4);
 
-                    // 사이즈 조절, 필요없는 데이터 가공 후 넘겨주기
-                    //recv = recv.Skip(8).ToArray();
 
                     switch (destination)
                     {
@@ -134,6 +132,7 @@ namespace StrawberryCloud.Models.Network
             // 길이 먼저 보낸후 데이터를 보냄
             socket.Send(BitConverter.GetBytes(send.Length), 0, 4, SocketFlags.None);
 
+
             int sendLen = 0;
 
             while (send.Length > sendLen)
@@ -143,6 +142,7 @@ namespace StrawberryCloud.Models.Network
             
         }
 
+        // 업로드 전용 Send
         public void Send(DataInfo _dataInfo, Method _method, Destination _destination, byte[] file, int _index)
         {
             byte[] info = BitConverter.GetBytes((int)_dataInfo);

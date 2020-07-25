@@ -32,6 +32,8 @@ namespace StrawberryCloudServer
                 {
                     sw.Start();
                     socket.Receive(recv, 0, recv.Length, SocketFlags.None);
+                    
+                    // 총 길이 먼저 받고 크기만큼 바이트 생성
                     int len = BitConverter.ToInt32(recv, 0);
 
                     byte[] dataRecv = new byte[len];
